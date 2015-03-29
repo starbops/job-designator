@@ -20,7 +20,7 @@ Give me some guys with bad luck (truly randomness):
 
 `$ jober -c <number>`
 
-Give me some guys with bad luck, weight matters :smiling_imp:
+Give me some guys with bad luck, weight matters :smiling_imp: :
 
-`$ jober -c <number> -e
+`$ jober -c <number> -e`
 
