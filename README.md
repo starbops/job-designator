@@ -4,23 +4,20 @@ Randomly dispatch jobs, with weighted feature :grin:
 
 ## Usage
 
-Get help:
+```
+usage: jober.py [-h] [-c | -u <username> <weight> | -d <username>] <filename>
 
-`$ jober -h`
+Provide some victims, with or without weights.
 
-Add or modify user (with weight specified, default is 1) into the list:
+positional arguments:
+  <filename>            read from the file in JSON format
 
-`$ jober -u <user> [-w <weight>]`
-
-Remove users into the list:
-
-`$ jober -d <user>`
-
-Give me some guys with bad luck (truly randomness):
-
-`$ jober -c <number>`
-
-Give me some guys with bad luck, weight matters :smiling_imp: :
-
-`$ jober -c <number> -e`
+optional arguments:
+  -h, --help            show this help message and exit
+  -c, --create          create victim list
+  -u <username> <weight>, --user <username> <weight>
+                        modified user with weight, create if not exist
+  -d <username>, --delete <username>
+                        delete user
+```
 
