@@ -7,8 +7,6 @@ import random
 import re
 import sys
 
-FNAME = 'victims.json'
-
 def wchoice(d):
     """Weighted version of random.choice
     """
