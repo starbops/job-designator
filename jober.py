@@ -51,6 +51,10 @@ def main():
                       '--delete',
                       metavar='<username>',
                       help='delete user')
+    group.add_argument('-p',
+                      '--print',
+                      action='store_true',
+                      help='show the victims being selected in the list file')
     parser.add_argument('filename',
                        metavar='<filename>',
                        help='read from the file in JSON format')
@@ -72,6 +76,11 @@ def main():
             victims = suckin(args.filename)
             del victims[args.delete]
             spitout(args.filename, victims)
+        elif args.print:
+            victims = suckin(args.filename)
+            print('{:<20}{:<}'.format('Username', 'Weight'))
+            for k in victims:
+                print('{:<20}{:<5}'.format(k, victims[k]))
         else:
             victims = suckin(args.filename)
             if victims:
