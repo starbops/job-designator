@@ -1,16 +1,28 @@
 #!/usr/bin/env python
+"""Pick up one victim from a list of victims with weight respectively
+
+This tool helps you pick up a bad luck person from a list you provided. If you
+don't like someone, you can increase the weight of the person. Then the person
+with higher weight has higher chance being picked up.
+
+Example:
+    $ python jober.py -u alice 1
+    $ python jober.py -u bob 5
+    $ python jober.py vlist
+    ================================someguytwo================================
+
+"""
 
 import argparse
 import json
 import os
 import random
-import re
 import sys
 
-def wchoice(d):
+def wchoice(victims):
     """Weighted version of random.choice
     """
-    wlist = [(k, d[k]) for k in d]
+    wlist = [(k, victims[k]) for k in victims]
     population = [val for val, cnt in wlist for i in range(int(cnt))]
     return random.choice(population)
 
@@ -18,8 +30,8 @@ def suckin(fname):
     """Open that fxxking file for reading
     """
     try:
-        with open(fname, 'r+') as f:
-            buf = f.read()
+        with open(fname, 'r+') as fhdr:
+            buf = fhdr.read()
             if len(buf):
                 return json.loads(buf)
             else:
@@ -27,11 +39,11 @@ def suckin(fname):
     except FileNotFoundError:
         raise FileNotFoundError
 
-def spitout(fname, d):
+def spitout(fname, victims):
     """Write changes into the file
     """
-    with open(fname, 'w+') as f:
-        f.write(json.dumps(d))
+    with open(fname, 'w+') as fhdr:
+        fhdr.write(json.dumps(victims))
 
 def main():
     """Parse arguments, dispatch, and error handling
@@ -39,31 +51,36 @@ def main():
     parser = argparse.ArgumentParser(description='Provide some victims, with or without weights.')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-c',
-                      '--create',
-                      action='store_true',
-                      help='create victim list')
+                       '--create',
+                       action='store_true',
+                       help='create victim list')
     group.add_argument('-u',
-                      '--user',
-                      nargs=2,
-                      metavar=('<username>', '<weight>'),
-                      help='modified user with weight, create if not exist')
+                       '--user',
+                       nargs=2,
+                       metavar=('<username>', '<weight>'),
+                       help='modified user with weight, create if not exist')
     group.add_argument('-d',
-                      '--delete',
-                      metavar='<username>',
-                      help='delete user')
+                       '--delete',
+                       metavar='<username>',
+                       help='delete user')
     group.add_argument('-p',
-                      '--print',
-                      action='store_true',
-                      help='show the victims being selected in the list file')
+                       '--print',
+                       action='store_true',
+                       help='show the victims being selected in the list file')
     parser.add_argument('filename',
-                       metavar='<filename>',
-                       help='read from the file in JSON format')
+                        metavar='<filename>',
+                        help='read from the file in JSON format')
     args = parser.parse_args()
 
+    jober(args)
+
+def jober(args):
+    """Make decision (dispatching) according to the arguments
+    """
     try:
         if args.create:
             if not os.path.isfile(args.filename):
-                with open(args.filename, 'a') as f:
+                with open(args.filename, 'a'):
                     pass
             else:
                 print('File already exist.')
