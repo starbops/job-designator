@@ -95,9 +95,10 @@ def jober(args):
             spitout(args.filename, victims)
         elif args.print:
             victims = suckin(args.filename)
+            sorted_victims = sorted(victims.items(), key=lambda x: x[1])
             print('{:<20}{:<}'.format('Username', 'Weight'))
-            for k in victims:
-                print('{:<20}{:<5}'.format(k, victims[k]))
+            for (k, v) in sorted_victims:
+                print('{:<20}{:<5}'.format(k, v))
         else:
             victims = suckin(args.filename)
             if victims:
